@@ -11,7 +11,13 @@ miro.onReady(() => {
                   toolbarSvgIcon: previousBoardIcon,
                   librarySvgIcon: previousBoardIcon,
                   onClick: previousBoard
-                }
+                },
+                toolbar: {
+                      title: 'Next Board',
+                      toolbarSvgIcon: nextBoardIcon,
+                      librarySvgIcon: nextBoardIcon,
+                      onClick: nextBoard
+                    }
             }
     })
 })

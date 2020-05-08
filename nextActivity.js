@@ -6,13 +6,14 @@ const nextBoardIcon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="non
 miro.onReady(() => {
     miro.initialize({
         extensionPoints: {
-            toolbar: {
-                  title: 'Next Board',
-                  toolbarSvgIcon: nextBoardIcon,
-                  librarySvgIcon: nextBoardIcon,
-                  onClick: nextBoard
-                }
-            }
+          bottomBar: async () => {
+               return {
+                 title: 'Next Board',
+                 svgIcon: nextBoardIcon,
+                 onClick: nextBoard
+               }
+           }
+        }
     })
 })
 
