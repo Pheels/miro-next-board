@@ -10,13 +10,46 @@ miro.onReady(() => {
                return {
                  title: 'Next Board',
                  svgIcon: nextBoardIcon,
-                 onClick: nextBoard
+                 onClick: getUserboards
                }
            }
         }
     })
 })
 
-function nextBoard(){
-  console.log('next board')
+function getUserboards(){
+  var data = null;
+
+  var xhr = new XMLHttpRequest();
+
+  xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === this.DONE) {
+      console.log(this.responseText);
+      var jsonResponse = JSON.parse(this.responseText)
+      var currentBoard = parseBoardId(document.referrer)
+      for (var i = 0; i < jsonResponse['body']['data'].length; i++){
+        var viewLink = parseBoardId(jsonResponse['body']['data'][i]['viewLink'])
+        if (viewLink == currentBoard){
+
+          var newUrl = ""
+          // account for end of the array
+          if (i == jsonResponse['body']['data'].length -1){
+            newUrl = jsonResponse['body']['data'][0]['viewLink']
+          } else {
+            newUrl = jsonResponse['body']['data'][i+1]['viewLink']
+          }
+          console.log("switching to board " + newUrl)
+          top.window.location.href = newUrl;
+        }
+      }
+    }
+
+  });
+
+  xhr.open("GET", "https://u2iz0bxu56.execute-api.eu-west-2.amazonaws.com/v1/userBoards");
+  xhr.send(data);
+}
+
+function parseBoardId(string){
+  return string.split('board/')[1].split('/')[0]
 }
